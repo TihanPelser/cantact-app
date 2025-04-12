@@ -9,23 +9,22 @@ class CantactDevice:
         self.timeout = timeout
         self.serial_connection = None
 
-    def open(self):
+    def open(self, port=None):
         """Opens the serial connection."""
         if self.serial_connection is not None and self.serial_connection.is_open:
             print("Serial port is already open.")
             return
 
         try:
-            if self.port is None:
-                pass
-                #available_ports = [port.device for port in serial.tools.list_ports.comports()]
-                #if not available_ports:
-                #    raise Exception("No serial ports available.")
-                #self.port = available_ports[0]
+            if port is not None:
+                self.port = port
 
-            #self.serial_connection = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-            #time.sleep(2) # wait for the device to be ready
-            #print(f"Serial connection opened on {self.port} at {self.baudrate} baud.")
+            if self.port is None:
+                raise Exception("No port specified.")
+
+            self.serial_connection = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+            time.sleep(2)  # wait for the device to be ready
+            print(f"Serial connection opened on {self.port} at {self.baudrate} baud.")
         except Exception as e:
             self.serial_connection = None
             raise Exception(f"Failed to open serial port {self.port}: {e}")

@@ -1,4 +1,4 @@
-from .can_frame import CanFrame
+from cantact_python.can_frame import CanFrame
 
 class IsotpInterface:
     def __init__(self, can_interface):
